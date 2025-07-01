@@ -1,0 +1,239 @@
+/* static/css/main.css */
+
+/* Navigation Styles */
+.nav-link {
+    @apply text-gray-600 hover:text-fayvad-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200;
+}
+
+.nav-link.active {
+    @apply text-fayvad-600 bg-fayvad-50;
+}
+
+.mobile-nav-link {
+    @apply block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-fayvad-600 hover:bg-gray-50 transition-colors duration-200;
+}
+
+/* Button Styles */
+.btn-primary {
+    @apply bg-fayvad-600 text-white px-6 py-3 rounded-md font-medium hover:bg-fayvad-700 transition-colors duration-200 inline-flex items-center;
+}
+
+.btn-secondary {
+    @apply bg-white text-fayvad-600 border border-fayvad-600 px-6 py-3 rounded-md font-medium hover:bg-fayvad-50 transition-colors duration-200 inline-flex items-center;
+}
+
+.btn-outline {
+    @apply border border-gray-300 text-gray-700 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors duration-200 inline-flex items-center;
+}
+
+/* Card Styles */
+.card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+}
+
+.card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Service Card */
+.service-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all duration-200 hover:shadow-xl hover:-translate-y-2;
+}
+
+/* Pricing Card */
+.pricing-card {
+    @apply bg-white rounded-xl border-2 border-gray-200 p-8 relative transition-all duration-200 hover:border-fayvad-300 hover:shadow-lg;
+}
+
+.pricing-card.featured {
+    @apply border-fayvad-500 shadow-lg transform scale-105;
+}
+
+.pricing-card.featured::before {
+    content: "Most Popular";
+    @apply absolute -top-4 left-1/2 transform -translate-x-1/2 bg-fayvad-600 text-white px-4 py-1 rounded-full text-sm font-medium;
+}
+
+/* Form Styles */
+.form-group {
+    @apply mb-6;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-fayvad-500 focus:border-fayvad-500 transition-colors duration-200;
+}
+
+.form-input:focus {
+    @apply outline-none;
+}
+
+.form-textarea {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-fayvad-500 focus:border-fayvad-500 transition-colors duration-200 resize-vertical min-h-[120px];
+}
+
+.form-select {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-fayvad-500 focus:border-fayvad-500 transition-colors duration-200 bg-white;
+}
+
+.form-error {
+    @apply text-red-600 text-sm mt-1;
+}
+
+.form-help {
+    @apply text-gray-500 text-sm mt-1;
+}
+
+/* Hero Section */
+.hero-gradient {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+}
+
+.hero-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Section Styles */
+.section-padding {
+    @apply py-16 lg:py-24;
+}
+
+.section-title {
+    @apply text-3xl lg:text-4xl font-bold text-gray-900 mb-4;
+}
+
+.section-subtitle {
+    @apply text-xl text-gray-600 mb-8 lg:mb-12;
+}
+
+/* Icon Styles */
+.icon-box {
+    @apply w-12 h-12 bg-fayvad-100 rounded-lg flex items-center justify-center mb-4;
+}
+
+.icon-box svg {
+    @apply w-6 h-6 text-fayvad-600;
+}
+
+/* Testimonial Styles */
+.testimonial-card {
+    @apply bg-white rounded-xl p-6 shadow-sm border border-gray-200;
+}
+
+/* Blog Styles */
+.blog-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-lg;
+}
+
+.blog-meta {
+    @apply text-sm text-gray-500 flex items-center space-x-4;
+}
+
+.blog-tag {
+    @apply inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors duration-200;
+}
+
+/* Badge Styles */
+.badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+    @apply bg-fayvad-100 text-fayvad-800;
+}
+
+.badge-success {
+    @apply bg-green-100 text-green-800;
+}
+
+.badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-danger {
+    @apply bg-red-100 text-red-800;
+}
+
+/* Loading States */
+.loading {
+    @apply opacity-50 pointer-events-none;
+}
+
+.spinner {
+    @apply animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full;
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(135deg, #0ea5e9, #0369a1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.glass-effect {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-up {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Images */
+.img-responsive {
+    @apply w-full h-auto;
+}
+
+.img-cover {
+    @apply w-full h-full object-cover;
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

@@ -1,0 +1,54 @@
+# Python 
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak
+venv.bak
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite-journal
+media/
+staticfiles/
+
+# Environment variables
+.env
+.env.*
+!.env.prod*
+
+# development things 
+docker-compose.dev.yml
+docker/nginx/dev.conf
+docker/nginx/local.conf
+nginx/dev.conf
+nginx/local.conf
+
+# IDE
+.vscode/
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumb.db
+
+# Docker
+.dockerignore
+
+# Deployment
+deploy_keys/
+*.pem
+
+*.pgsql
+*.dump
+*.sql~
+*.mo
+localhost.*

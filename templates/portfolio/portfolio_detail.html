@@ -1,0 +1,302 @@
+<!-- templates/portfolio/portfolio_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ portfolio.title }} - {{ portfolio.client_name }} | Fayvad Digital Portfolio{% endblock %}
+{% block meta_description %}{{ portfolio.meta_description|default:portfolio.short_description }}{% endblock %}
+
+{% block extra_head %}
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ portfolio.title }} - {{ portfolio.client_name }}">
+<meta property="og:description" content="{{ portfolio.short_description }}">
+{% if portfolio.featured_image %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ portfolio.featured_image.url }}">
+{% endif %}
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ portfolio.get_absolute_url }}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="{{ portfolio.title }} - {{ portfolio.client_name }}">
+<meta property="twitter:description" content="{{ portfolio.short_description }}">
+{% if portfolio.featured_image %}
+<meta property="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ portfolio.featured_image.url }}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<article class="py-16">
+    <div class="container mx-auto px-4">
+        
+        <!-- Breadcrumb -->
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <li><a href="{% url 'pages:home' %}" class="hover:text-blue-600">Home</a></li>
+                <li class="before:content-['/'] before:mx-2">
+                    <a href="{% url 'portfolio:list' %}" class="hover:text-blue-600">Portfolio</a>
+                </li>
+                <li class="before:content-['/'] before:mx-2">
+                    <a href="{% url 'portfolio:list' %}?category={{ portfolio.category.slug }}" class="hover:text-blue-600">
+                        {{ portfolio.category.name }}
+                    </a>
+                </li>
+                <li class="before:content-['/'] before:mx-2 text-gray-400">{{ portfolio.title|truncatechars:30 }}</li>
+            </ol>
+        </nav>
+
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Project Header -->
+            <header class="mb-12">
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        {{ portfolio.get_service_type_display }}
+                    </span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                        {{ portfolio.category.name }}
+                    </span>
+                    {% if portfolio.status == 'ongoing' %}
+                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">In Progress</span>
+                    {% elif portfolio.featured %}
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Featured</span>
+                    {% endif %}
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{{ portfolio.title }}</h1>
+                <p class="text-xl text-gray-600 mb-6">{{ portfolio.short_description }}</p>
+                
+                <!-- Project Meta -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 bg-gray-50 rounded-lg p-6">
+                    <div>
+                        <div class="text-sm text-gray-500 uppercase tracking-wide">Client</div>
+                        <div class="font-semibold text-gray-900">{{ portfolio.client_name }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-500 uppercase tracking-wide">Duration</div>
+                        <div class="font-semibold text-gray-900">{{ portfolio.duration_months }} month{{ portfolio.duration_months|pluralize }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-500 uppercase tracking-wide">Completed</div>
+                        <div class="font-semibold text-gray-900">{{ portfolio.completion_date|date:"M Y" }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-500 uppercase tracking-wide">Status</div>
+                        <div class="font-semibold text-gray-900 capitalize">{{ portfolio.get_status_display }}</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Featured Image -->
+            {% if portfolio.featured_image %}
+            <div class="mb-12">
+                <img src="{{ portfolio.featured_image.url }}" alt="{{ portfolio.title }}" 
+                     class="w-full h-96 object-cover rounded-lg shadow-lg">
+            </div>
+            {% endif %}
+
+            <!-- Project Content -->
+            <div class="grid lg:grid-cols-3 gap-12 mb-12">
+                
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+                    
+                    <!-- Project Overview -->
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Project Overview</h2>
+                        <div class="prose prose-lg max-w-none text-gray-700">
+                            {{ portfolio.description|linebreaks }}
+                        </div>
+                    </section>
+
+                    <!-- Challenge -->
+                    {% if portfolio.challenge %}
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">The Challenge</h2>
+                        <div class="bg-red-50 border-l-4 border-red-400 p-6 rounded-r-lg">
+                            <div class="prose max-w-none text-gray-700">
+                                {{ portfolio.challenge|linebreaks }}
+                            </div>
+                        </div>
+                    </section>
+                    {% endif %}
+
+                    <!-- Solution -->
+                    {% if portfolio.solution %}
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Our Solution</h2>
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
+                            <div class="prose max-w-none text-gray-700">
+                                {{ portfolio.solution|linebreaks }}
+                            </div>
+                        </div>
+                    </section>
+                    {% endif %}
+
+                    <!-- Results -->
+                    {% if portfolio.results %}
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Results & Impact</h2>
+                        <div class="bg-green-50 border-l-4 border-green-400 p-6 rounded-r-lg">
+                            <div class="prose max-w-none text-gray-700">
+                                {{ portfolio.results|linebreaks }}
+                            </div>
+                        </div>
+                    </section>
+                    {% endif %}
+
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-8">
+                    
+                    <!-- Project Links -->
+                    {% if portfolio.project_url or portfolio.demo_url %}
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Project Links</h3>
+                        <div class="space-y-3">
+                            {% if portfolio.project_url %}
+                            <a href="{{ portfolio.project_url }}" target="_blank" 
+                               class="flex items-center text-blue-600 hover:text-blue-800">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                                View Live Project
+                            </a>
+                            {% endif %}
+                            {% if portfolio.demo_url %}
+                            <a href="{{ portfolio.demo_url }}" target="_blank" 
+                               class="flex items-center text-green-600 hover:text-green-800">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-9-4V8a3 3 0 116 0v2M7 21h10a2 2 0 002-2V9a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                View Demo
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Technologies Used -->
+                    {% if portfolio.technologies_used %}
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Technologies Used</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for tech in portfolio.technologies_used %}
+                            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                {{ tech }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Client Feedback -->
+                    {% if portfolio.client_testimonial %}
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Client Feedback</h3>
+                        <blockquote class="text-gray-700 italic mb-4">
+                            "{{ portfolio.client_testimonial }}"
+                        </blockquote>
+                        <div class="flex items-center">
+                            {% if portfolio.client_logo %}
+                            <img src="{{ portfolio.client_logo.url }}" alt="{{ portfolio.client_name }}" 
+                                 class="w-8 h-8 rounded-full mr-3">
+                            {% endif %}
+                            <div>
+                                <div class="font-semibold text-gray-900">{{ portfolio.client_name }}</div>
+                                {% if portfolio.client_rating %}
+                                <div class="flex items-center">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= portfolio.client_rating %}
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        {% else %}
+                                        <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Project Info -->
+                    {% if portfolio.project_cost %}
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Project Investment</h3>
+                        <div class="text-2xl font-bold text-green-600">
+                            KES {{ portfolio.project_cost|floatformat:0|slice:":-2" }}{% if portfolio.project_cost|floatformat:0|slice:"-2:" != "00" %}.{{ portfolio.project_cost|floatformat:0|slice:"-2:" }}{% endif %}
+                        </div>
+                        <div class="text-sm text-gray-500">Total project value</div>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <!-- Related Projects -->
+            {% if related_portfolios %}
+            <section class="border-t border-gray-200 pt-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-8">Related Projects</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    {% for related in related_portfolios %}
+                    <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        {% if related.featured_image %}
+                        <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" 
+                             class="w-full h-48 object-cover">
+                        {% else %}
+                        <div class="w-full h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                            <span class="text-white font-semibold">{{ related.get_service_type_display }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                                    {{ related.get_service_type_display }}
+                                </span>
+                                {% if related.featured %}
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Featured</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">
+                                <a href="{% url 'portfolio:detail' related.slug %}" class="hover:text-blue-600">
+                                    {{ related.title }}
+                                </a>
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-2">{{ related.client_name }}</p>
+                            <div class="text-sm text-gray-500">
+                                {{ related.completion_date|date:"M Y" }} • {{ related.duration_months }} month{{ related.duration_months|pluralize }}
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Call to Action -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white text-center mt-12">
+                <h2 class="text-2xl font-bold mb-4">Ready to Start Your Project?</h2>
+                <p class="text-blue-100 mb-6">
+                    Let's discuss how we can help transform your business with tailored digital solutions
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'contact:form' %}" 
+                       class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        Start Your Project
+                    </a>
+                    <a href="{% url 'services:list' %}" 
+                       class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                        View Our Services
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</article>
+{% endblock %}

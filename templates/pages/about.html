@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ about_page.title }} - Fayvad Digital{% endblock %}
+
+{% block meta_description %}{{ about_page.meta_description|default:"Learn about Fayvad Digital - Your trusted partner for digital transformation. Discover our mission, vision, and the team behind Kenya's leading SME digitization experts." }}{% endblock %}
+
+{% block content %}
+<main class="bg-gray-50">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                    {{ about_page.title|default:"About Fayvad Digital" }}
+                </h1>
+                <p class="text-xl text-blue-100 leading-relaxed">
+                    {{ about_page.subtitle|default:"Your trusted partner for digital transformation" }}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Story -->
+    <section class="py-16 bg-gradient-to-br from-gray-50 to-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Content -->
+                    <div class="prose prose-lg max-w-none">
+                        {% if about_page.company_story %}
+                            {{ about_page.company_story|linebreaks }}
+                        {% else %}
+                            <div class="bg-white rounded-xl p-8 shadow-lg border-l-4" style="border-left-color: var(--fayvad-teal);">
+                                <h3 class="text-2xl font-bold mb-6" style="color: var(--fayvad-navy);">Our Story</h3>
+                                <p class="text-gray-700 mb-6 leading-relaxed">At Fayvad Digital, we believe that technology should empower, not complicate. Founded with a vision to bridge the digital divide for Small and Medium Enterprises (SMEs) and SACCOs across Kenya, we've dedicated ourselves to providing accessible, affordable, and effective digital solutions.</p>
+                                
+                                <p class="text-gray-700 mb-6 leading-relaxed">Our journey began with a simple observation: many businesses struggle with digital transformation not because they lack vision, but because they lack the right partner. We set out to be that partner – one that understands the unique challenges of growing businesses and provides solutions that actually work.</p>
+                                
+                                <div class="bg-blue-50 rounded-lg p-6 border-l-4" style="border-left-color: var(--fayvad-gold);">
+                                    <p class="text-gray-700 mb-0 font-medium">Today, we're proud to have helped over <span class="font-bold" style="color: var(--fayvad-navy);">500 SMEs</span> and <span class="font-bold" style="color: var(--fayvad-navy);">50+ SACCOs</span> transform their operations, streamline their processes, and achieve sustainable growth through smart technology adoption.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Visual Elements -->
+                    <div class="relative">
+                        <!-- Main Visual -->
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 text-white relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
+                            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -ml-12 -mb-12"></div>
+                            
+                            <div class="relative z-10">
+                                <div class="text-4xl mb-6">🚀</div>
+                                <h4 class="text-xl font-bold mb-4">Our Impact</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-blue-100">SMEs Transformed</span>
+                                        <span class="text-2xl font-bold">500+</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-blue-100">SACCOs Served</span>
+                                        <span class="text-2xl font-bold">50+</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-blue-100">Success Rate</span>
+                                        <span class="text-2xl font-bold">98%</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-blue-100">Years Experience</span>
+                                        <span class="text-2xl font-bold">5+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Cards -->
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div class="bg-white rounded-lg p-6 shadow-md text-center border-t-4" style="border-top-color: var(--fayvad-gold);">
+                                <div class="text-2xl mb-2">🎯</div>
+                                <div class="font-bold text-gray-900">Focused</div>
+                                <div class="text-sm text-gray-600">SME & SACCO Specialists</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-6 shadow-md text-center border-t-4" style="border-top-color: var(--fayvad-teal);">
+                                <div class="text-2xl mb-2">💡</div>
+                                <div class="font-bold text-gray-900">Innovative</div>
+                                <div class="text-sm text-gray-600">Latest Technology</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Mission, Vision, Values -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Mission -->
+                    <div class="bg-white rounded-lg p-8 shadow-sm">
+                        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Our Mission</h3>
+                        <p class="text-gray-600">
+                            {{ about_page.mission|default:"To empower SMEs and SACCOs with smart, affordable digital solutions that drive sustainable business growth and operational excellence." }}
+                        </p>
+                    </div>
+
+                    <!-- Vision -->
+                    <div class="bg-white rounded-lg p-8 shadow-sm">
+                        <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Our Vision</h3>
+                        <p class="text-gray-600">
+                            {{ about_page.vision|default:"To be the leading digital transformation partner for SMEs and SACCOs across East Africa, making advanced technology accessible to every growing business." }}
+                        </p>
+                    </div>
+
+                    <!-- Values -->
+                    <div class="bg-white rounded-lg p-8 shadow-sm">
+                        <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Our Values</h3>
+                        <div class="text-gray-600 text-sm">
+                            {% if about_page.values %}
+                                {{ about_page.values|linebreaks }}
+                            {% else %}
+                                <p><strong>Customer First:</strong> Your success is our priority</p>
+                                <p><strong>Quality Excellence:</strong> Professional solutions always</p>
+                                <p><strong>Transparency:</strong> Clear communication, honest pricing</p>
+                                <p><strong>Innovation:</strong> Cutting-edge technology solutions</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    {% if team_members %}
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">{{ about_page.team_title|default:"Our Expert Team" }}</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        {{ about_page.team_description|default:"Meet the professionals dedicated to your digital success" }}
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    {% for member in team_members %}
+                    <div class="bg-gray-50 rounded-lg overflow-hidden">
+                        {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="w-full h-64 object-cover">
+                        {% else %}
+                        <div class="w-full h-64 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                            <span class="text-4xl font-bold text-white">{{ member.name|first }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-1">{{ member.name }}</h3>
+                            <p class="text-blue-600 font-medium mb-3">{{ member.title }}</p>
+                            <p class="text-gray-600 text-sm mb-4">{{ member.bio|truncatewords:20 }}</p>
+                            {% if member.specializations_list %}
+                            <div class="flex flex-wrap gap-2">
+                                {% for spec in member.specializations_list %}
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">{{ spec }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-blue-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-3xl font-bold mb-2">500+</div>
+                        <div class="text-blue-200">SMEs Served</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold mb-2">50+</div>
+                        <div class="text-blue-200">SACCOs Digitized</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold mb-2">{{ service_count|default:"20+" }}</div>
+                        <div class="text-blue-200">Services Offered</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold mb-2">{{ portfolio_count|default:"100+" }}</div>
+                        <div class="text-blue-200">Projects Completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6">
+                    {{ about_page.cta_title|default:"Ready to Transform Your Business?" }}
+                </h2>
+                <p class="text-gray-600 mb-8 text-lg">
+                    {{ about_page.cta_description|default:"Let's discuss how we can help you achieve your digital goals" }}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'contact:form' %}" 
+                       class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                        Get Free Consultation
+                    </a>
+                    <a href="{% url 'services:list' %}" 
+                       class="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors">
+                        View Our Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

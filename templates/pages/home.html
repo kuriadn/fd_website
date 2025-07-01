@@ -1,0 +1,399 @@
+<!-- templates/pages/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fayvad Digital - Smart Digital Solutions for SMEs & SACCOs{% endblock %}
+{% block meta_description %}Professional digital solutions for SMEs and SACCOs in Kenya. Website development, ERP systems, email solutions starting from KES 15,000. Transform your business today.{% endblock %}
+
+{% block extra_head %}
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fayvad Digital - Smart Digital Solutions for SMEs & SACCOs">
+<meta property="og:description" content="Transform your business with affordable, professional digital solutions.">
+<link rel="canonical" href="https://www.digital.fayvad.com/">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Fayvad Digital",
+  "url": "https://www.digital.fayvad.com",
+  "logo": "https://www.digital.fayvad.com{% static 'images/logo.png' %}",
+  "description": "Professional digital solutions for SMEs and SACCOs in Kenya",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Grace House 3rd Floor Suite 10",
+    "addressLocality": "Thika Town",
+    "addressCountry": "KE"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+254-769-069-640",
+    "contactType": "customer service",
+    "email": "services@digital.fayvad.com"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Jumbotron with Image Carousel - MOVED TO TOP -->
+<section class="relative h-96 overflow-hidden rounded-2xl shadow-2xl mx-4 mt-8" x-data="{ activeSlide: 0 }" x-init="setInterval(() => { activeSlide = activeSlide === 3 ? 0 : activeSlide + 1 }, 4000)">
+    
+    <!-- Slide 1: Business Store -->
+    <div class="absolute inset-0 transition-opacity duration-1000" :class="{ 'opacity-100': activeSlide === 0, 'opacity-0': activeSlide !== 0 }">
+        <div class="h-full flex items-center justify-center bg-cover bg-center" style="background-image: url('{% static 'images/business-store.jpg' %}'); background-color: var(--fayvad-teal);">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="text-center text-white relative z-10">
+                <div class="text-8xl mb-6">🌐</div>
+                <h3 class="text-4xl font-bold mb-4">Website Development</h3>
+                <p class="text-xl mb-6 max-w-2xl">Professional, responsive websites and web based solutions that convert visitors into customers</p>
+                <div class="text-2xl font-bold" style="color: var(--fayvad-gold);">Starting from KES 20,000</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Technology Scan -->
+    <div class="absolute inset-0 transition-opacity duration-1000" :class="{ 'opacity-100': activeSlide === 1, 'opacity-0': activeSlide !== 1 }">
+        <div class="h-full flex items-center justify-center bg-cover bg-center" style="background-image: url('{% static 'images/technology-scan.jpg' %}'); background-color: var(--fayvad-navy);">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="text-center text-white relative z-10">
+                <div class="text-8xl mb-6">💼</div>
+                <h3 class="text-4xl font-bold mb-4">ERP & Business Systems</h3>
+                <p class="text-xl mb-6 max-w-2xl">Streamline operations with Odoo ERP and business automation</p>
+                <div class="text-2xl font-bold" style="color: var(--fayvad-gold);">Starting from KES 35,000</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Data Network -->
+    <div class="absolute inset-0 transition-opacity duration-1000" :class="{ 'opacity-100': activeSlide === 2, 'opacity-0': activeSlide !== 2 }">
+        <div class="h-full flex items-center justify-center bg-cover bg-center" style="background-image: url('{% static 'images/data-network.jpg' %}'); background-color: var(--fayvad-gold);">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="text-center text-white relative z-10">
+                <div class="text-8xl mb-6">📧</div>
+                <h3 class="text-4xl font-bold mb-4">Professional Email</h3>
+                <p class="text-xl mb-6 max-w-2xl">Secure business email with your domain and mobile sync</p>
+                <div class="text-2xl font-bold" style="color: var(--fayvad-gold);">Starting from KES 15,000</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Nature Growth -->
+    <div class="absolute inset-0 transition-opacity duration-1000" :class="{ 'opacity-100': activeSlide === 3, 'opacity-0': activeSlide !== 3 }">
+        <div class="h-full flex items-center justify-center bg-cover bg-center" style="background-image: url('{% static 'images/nature-growth.jpg' %}'); background-color: #10B981;">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="text-center text-white relative z-10">
+                <div class="text-8xl mb-6">📈</div>
+                <h3 class="text-4xl font-bold mb-4">Training & Support</h3>
+                <p class="text-xl mb-6 max-w-2xl">Comprehensive training and ongoing support for your team</p>
+                <div class="text-2xl font-bold" style="color: var(--fayvad-gold);">KES 5,000/month</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+        <button @click="activeSlide = 0" class="w-3 h-3 rounded-full transition-colors" :class="{ 'bg-white': activeSlide === 0, 'bg-white bg-opacity-50': activeSlide !== 0 }"></button>
+        <button @click="activeSlide = 1" class="w-3 h-3 rounded-full transition-colors" :class="{ 'bg-white': activeSlide === 1, 'bg-white bg-opacity-50': activeSlide !== 1 }"></button>
+        <button @click="activeSlide = 2" class="w-3 h-3 rounded-full transition-colors" :class="{ 'bg-white': activeSlide === 2, 'bg-white bg-opacity-50': activeSlide !== 2 }"></button>
+        <button @click="activeSlide = 3" class="w-3 h-3 rounded-full transition-colors" :class="{ 'bg-white': activeSlide === 3, 'bg-white bg-opacity-50': activeSlide !== 3 }"></button>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button @click="activeSlide = activeSlide === 0 ? 3 : activeSlide - 1" 
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 text-white p-3 rounded-full transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    <button @click="activeSlide = activeSlide === 3 ? 0 : activeSlide + 1" 
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 text-white p-3 rounded-full transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+</section>
+
+<!-- Hero Section -->
+<section class="text-white py-20" style="background: linear-gradient(135deg, var(--fayvad-navy) 0%, var(--fayvad-navy-light) 100%);">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    {% if homepage %}
+                        {{ homepage.hero_title|safe }}
+                    {% else %}
+                        Empowering SMEs & SACCOs with <span style="color: var(--fayvad-gold);">Smart Digital Solutions</span>
+                    {% endif %}
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                    {% if homepage %}
+                        {{ homepage.hero_subtitle }}
+                    {% else %}
+                        Transform your business with affordable, professional digital solutions. From websites to ERP systems, we're your trusted technology partner.
+                    {% endif %}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{% url 'contact:form' %}" 
+                       class="px-8 py-4 rounded-lg font-bold text-lg text-center transition-colors"
+                       style="background-color: var(--fayvad-gold); color: var(--fayvad-navy);"
+                       onmouseover="this.style.opacity='0.9'" 
+                       onmouseout="this.style.opacity='1'">
+                        {% if homepage %}{{ homepage.hero_cta_text }}{% else %}Get Free Consultation{% endif %}
+                    </a>
+                    <a href="{% url 'services:list' %}" 
+                       class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg text-center transition-colors"
+                       onmouseover="this.style.backgroundColor='white'; this.style.color='var(--fayvad-navy)'" 
+                       onmouseout="this.style.backgroundColor='transparent'; this.style.color='white'">
+                        {% if homepage %}{{ homepage.hero_secondary_cta }}{% else %}View Our Services{% endif %}
+                    </a>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="bg-white bg-opacity-10 rounded-2xl p-8 backdrop-blur-sm">
+                    <div class="text-6xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold mb-4">Ready to Digitize?</h3>
+                    <p class="text-blue-100 mb-6">Join 500+ SMEs & SACCOs who trust us</p>
+                    <div class="grid grid-cols-3 gap-4 text-sm">
+                        {% for stat in stats %}
+                        <div class="text-center">
+                            <div class="text-2xl font-bold" style="color: var(--fayvad-gold);">{{ stat.number }}</div>
+                            <div>{{ stat.label }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Services -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4" style="color: var(--fayvad-navy);">Featured Services</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Popular digital solutions chosen by SMEs and SACCOs
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for service in featured_services %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 {% if service.is_featured %}border-2{% endif %}" 
+                 {% if service.is_featured %}style="border-color: var(--fayvad-gold);"{% endif %}>
+                {% if service.is_featured %}
+                <div class="text-center py-2" style="background-color: var(--fayvad-gold);">
+                    <span class="font-bold text-sm" style="color: var(--fayvad-navy);">⭐ Featured</span>
+                </div>
+                {% endif %}
+                <div class="p-8">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                             style="background-color: {% cycle 'var(--fayvad-teal)' 'var(--fayvad-navy)' 'var(--fayvad-gold)' %};">
+                            <span class="text-2xl text-white">
+                                {% if 'website' in service.name|lower %}🌐{% elif 'erp' in service.name|lower or 'odoo' in service.name|lower %}💼{% else %}📧{% endif %}
+                            </span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" style="color: var(--fayvad-navy);">{{ service.name }}</h3>
+                        <div class="text-3xl font-bold" style="color: var(--fayvad-navy);">
+                            KES {{ service.price|floatformat:0|default:"0" }}
+                            {% if service.billing_cycle != 'one_time' %}
+                            <span class="text-sm font-normal text-gray-500">/{{ service.get_billing_cycle_display|lower }}</span>
+                            {% endif %}
+                        </div>
+                        {% if service.setup_fee %}
+                        <div class="text-sm text-gray-500">+ KES {{ service.setup_fee|floatformat:0 }} setup</div>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="text-gray-600 text-center mb-6">{{ service.short_description }}</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        {% for feature in service.features_list|slice:":4" %}
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">{{ feature }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <div class="text-center space-y-3">
+                        <a href="{% url 'services:detail' service.slug %}" 
+                           class="block w-full py-3 rounded-lg text-center font-semibold transition-colors"
+                           style="{% if service.is_featured %}background-color: var(--fayvad-gold); color: var(--fayvad-navy);{% else %}background-color: var(--fayvad-navy); color: white;{% endif %}"
+                           onmouseover="this.style.opacity='0.9'" 
+                           onmouseout="this.style.opacity='1'">
+                            Learn More
+                        </a>
+                        <a href="{% url 'contact:form' %}?service={{ service.slug }}" 
+                           class="block w-full border py-2 rounded-lg text-center transition-colors"
+                           style="border-color: {% if service.is_featured %}var(--fayvad-gold){% else %}var(--fayvad-navy){% endif %}; color: {% if service.is_featured %}var(--fayvad-gold){% else %}var(--fayvad-navy){% endif %};"
+                           onmouseover="this.style.backgroundColor='{% if service.is_featured %}var(--fayvad-gold){% else %}var(--fayvad-navy){% endif %}'; this.style.color='{% if service.is_featured %}var(--fayvad-navy){% else %}white{% endif %}'" 
+                           onmouseout="this.style.backgroundColor='transparent'; this.style.color='{% if service.is_featured %}var(--fayvad-gold){% else %}var(--fayvad-navy){% endif %}'">
+                            Get Quote
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <p class="text-gray-500">Featured services will appear here once added.</p>
+                <a href="{% url 'services:list' %}" class="text-blue-600 hover:text-blue-800">View All Services →</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'services:list' %}" 
+               class="inline-block px-8 py-3 rounded-lg font-semibold transition-colors"
+               style="background-color: var(--fayvad-teal); color: white;"
+               onmouseover="this.style.opacity='0.9'" 
+               onmouseout="this.style.opacity='1'">
+                View All Services
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Preview -->
+{% if featured_portfolio %}
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4" style="color: var(--fayvad-navy);">Success Stories</h2>
+            <p class="text-xl text-gray-600">See how we've transformed businesses like yours</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for project in featured_portfolio %}
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                {% if project.featured_image %}
+                <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <div class="h-48 flex items-center justify-center" 
+                     style="background: linear-gradient(45deg, {% cycle 'var(--fayvad-teal)' 'var(--fayvad-gold)' 'var(--fayvad-navy)' %} 0%, {% cycle '#38BDF8' '#E6C86B' '#2C4A6B' %} 100%);">
+                    <span class="text-white text-6xl">
+                        {% if 'ecommerce' in project.service_type %}🏪{% elif 'erp' in project.service_type %}📊{% else %}🌐{% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <span class="px-3 py-1 rounded-full text-sm" 
+                          style="background-color: rgba(27, 54, 93, 0.1); color: var(--fayvad-navy);">
+                        {{ project.get_service_type_display }}
+                    </span>
+                    <h3 class="text-xl font-bold mt-4 mb-2" style="color: var(--fayvad-navy);">{{ project.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ project.short_description|truncatechars:100 }}</p>
+                    <a href="{% url 'portfolio:detail' project.slug %}" 
+                       class="font-semibold transition-colors"
+                       style="color: var(--fayvad-teal);"
+                       onmouseover="this.style.color='var(--fayvad-navy)'" 
+                       onmouseout="this.style.color='var(--fayvad-teal)'">
+                        View Case Study →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'portfolio:list' %}" 
+               class="inline-block px-8 py-3 rounded-lg font-semibold transition-colors"
+               style="background-color: var(--fayvad-navy); color: white;"
+               onmouseover="this.style.opacity='0.9'" 
+               onmouseout="this.style.opacity='1'">
+                View Our Portfolio
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Blog Preview -->
+{% if latest_blog_posts %}
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4" style="color: var(--fayvad-navy);">Latest Insights</h2>
+            <p class="text-xl text-gray-600">Expert tips and insights on digital transformation</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for post in latest_blog_posts %}
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <div class="h-48 flex items-center justify-center" 
+                     style="background: linear-gradient(45deg, var(--fayvad-teal) 0%, #38BDF8 100%);">
+                    <span class="text-white text-4xl">📝</span>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <span class="px-3 py-1 rounded-full text-sm" 
+                          style="background-color: rgba(14, 165, 233, 0.1); color: var(--fayvad-teal);">
+                        {{ post.category.name }}
+                    </span>
+                    <h3 class="text-xl font-bold mt-4 mb-3" style="color: var(--fayvad-navy);">
+                        <a href="{% url 'blog:detail' post.slug %}" class="hover:opacity-80">{{ post.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 mb-4">{{ post.excerpt|default:post.content|truncatechars:120 }}</p>
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-500">{{ post.published_at|date:"M d, Y" }}</div>
+                        <a href="{% url 'blog:detail' post.slug %}" 
+                           class="text-sm font-semibold transition-colors"
+                           style="color: var(--fayvad-teal);"
+                           onmouseover="this.style.color='var(--fayvad-navy)'" 
+                           onmouseout="this.style.color='var(--fayvad-teal)'">
+                            Read More →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'blog:list' %}" 
+               class="inline-block px-8 py-3 rounded-lg font-semibold transition-colors"
+               style="background-color: var(--fayvad-teal); color: white;"
+               onmouseover="this.style.opacity='0.9'" 
+               onmouseout="this.style.opacity='1'">
+                View All Articles
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Contact CTA -->
+<section class="py-20 text-white" style="background: linear-gradient(135deg, var(--fayvad-navy) 0%, var(--fayvad-navy-light) 100%);">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
+        <p class="text-xl text-blue-100 mb-8">
+            Get a free consultation and discover how we can help you grow with smart digital solutions
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:form' %}" 
+               class="px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+               style="background-color: var(--fayvad-gold); color: var(--fayvad-navy);"
+               onmouseover="this.style.opacity='0.9'" 
+               onmouseout="this.style.opacity='1'">
+                Get Free Consultation
+            </a>
+            <a href="tel:+254769069640" 
+               class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+               onmouseover="this.style.backgroundColor='white'; this.style.color='var(--fayvad-navy)'" 
+               onmouseout="this.style.backgroundColor='transparent'; this.style.color='white'">
+                Call +254-769-069-640
+            </a>
+        </div>
+        <div class="mt-8 text-blue-200">
+            <p>📧 services@digital.fayvad.com | 🏢 Grace House 3rd Floor Suite 10, Thika Town</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

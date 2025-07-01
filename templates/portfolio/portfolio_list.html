@@ -1,0 +1,295 @@
+<!-- templates/portfolio/portfolio_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Portfolio | Fayvad Digital{% endblock %}
+{% block meta_description %}Explore our portfolio of successful projects including ERP implementations, custom websites, and business automation solutions for SMEs and SACCOs.{% endblock %}
+
+{% block content %}
+<div class="py-16">
+    <div class="container mx-auto px-4">
+        
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Portfolio</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Discover how we've helped SMEs, SACCOs, and organizations transform their operations through innovative digital solutions.
+            </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="mb-8">
+            <div class="flex flex-wrap gap-4 items-center justify-between">
+                
+                <!-- Category Filter -->
+                <div class="flex flex-wrap gap-2">
+                    <a href="{% url 'portfolio:list' %}" 
+                       class="px-4 py-2 rounded-full text-sm font-medium transition-colors
+                              {% if not current_category %}bg-blue-600 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                        All Projects
+                    </a>
+                    {% for category in categories %}
+                    <a href="{% url 'portfolio:list' %}?category={{ category.slug }}" 
+                       class="px-4 py-2 rounded-full text-sm font-medium transition-colors
+                              {% if current_category == category.slug %}bg-blue-600 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                        {{ category.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Search -->
+                <div class="relative">
+                    <form method="GET" class="flex">
+                        {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+                        {% if current_service %}<input type="hidden" name="service" value="{{ current_service }}">{% endif %}
+                        <input type="text" name="q" value="{{ search_query|default:'' }}" 
+                               placeholder="Search projects..." 
+                               class="pl-10 pr-4 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <button type="submit" 
+                                class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Service Type Filter -->
+            <div class="flex flex-wrap gap-2 mt-4">
+                <span class="text-sm text-gray-500 mr-2">Service Type:</span>
+                <a href="{% url 'portfolio:list' %}{% if current_category %}?category={{ current_category }}{% endif %}" 
+                   class="px-3 py-1 rounded-full text-xs font-medium transition-colors
+                          {% if not current_service %}bg-gray-200 text-gray-800{% else %}bg-gray-100 text-gray-600 hover:bg-gray-200{% endif %}">
+                    All
+                </a>
+                {% for service_key, service_name in service_types %}
+                <a href="{% url 'portfolio:list' %}?service={{ service_key }}{% if current_category %}&category={{ current_category }}{% endif %}" 
+                   class="px-3 py-1 rounded-full text-xs font-medium transition-colors
+                          {% if current_service == service_key %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-600 hover:bg-gray-200{% endif %}">
+                    {{ service_name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div class="mb-6">
+            <p class="text-gray-600">
+                Showing {{ total_count }} project{{ total_count|pluralize }}
+                {% if current_category or current_service or search_query %}
+                    {% if current_category %}
+                        {% for category in categories %}
+                            {% if category.slug == current_category %}in {{ category.name }}{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if current_service %}
+                        {% for service_key, service_name in service_types %}
+                            {% if service_key == current_service %}for {{ service_name }}{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if search_query %}matching "{{ search_query }}"{% endif %}
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Portfolio Grid -->
+        {% if portfolios %}
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+            {% for portfolio in portfolios %}
+            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow group">
+                
+                <!-- Project Image -->
+                {% if portfolio.featured_image %}
+                <div class="relative overflow-hidden">
+                    <img src="{{ portfolio.featured_image.url }}" alt="{{ portfolio.title }}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white bg-opacity-90 text-gray-800 px-2 py-1 rounded text-xs font-medium">
+                            {{ portfolio.get_service_type_display }}
+                        </span>
+                    </div>
+                    {% if portfolio.featured %}
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-yellow-400 text-yellow-900 px-2 py-1 rounded text-xs font-medium">
+                            Featured
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative">
+                    <span class="text-white text-lg font-semibold">{{ portfolio.get_service_type_display }}</span>
+                    {% if portfolio.featured %}
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-yellow-400 text-yellow-900 px-2 py-1 rounded text-xs font-medium">
+                            Featured
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Project Content -->
+                <div class="p-6">
+                    <!-- Category & Status -->
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">
+                            {{ portfolio.category.name }}
+                        </span>
+                        {% if portfolio.status == 'ongoing' %}
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">
+                            In Progress
+                        </span>
+                        {% elif portfolio.status == 'completed' %}
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                            Completed
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Project Title -->
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                        <a href="{% url 'portfolio:detail' portfolio.slug %}">
+                            {{ portfolio.title }}
+                        </a>
+                    </h3>
+
+                    <!-- Client -->
+                    <p class="text-blue-600 font-medium text-sm mb-3">{{ portfolio.client_name }}</p>
+
+                    <!-- Description -->
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                        {{ portfolio.short_description }}
+                    </p>
+
+                    <!-- Technologies -->
+                    {% if portfolio.technologies_used %}
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        {% for tech in portfolio.technologies_used|slice:":3" %}
+                        <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                            {{ tech }}
+                        </span>
+                        {% endfor %}
+                        {% if portfolio.technologies_used|length > 3 %}
+                        <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                            +{{ portfolio.technologies_used|length|add:"-3" }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Project Meta -->
+                    <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                        <span>{{ portfolio.completion_date|date:"M Y" }}</span>
+                        <span>{{ portfolio.duration_months }} month{{ portfolio.duration_months|pluralize }}</span>
+                    </div>
+
+                    <!-- Client Rating -->
+                    {% if portfolio.client_rating %}
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-2">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= portfolio.client_rating %}
+                                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                {% else %}
+                                <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="text-sm text-gray-600">{{ portfolio.client_rating }}/5</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- View Project Button -->
+                    <a href="{% url 'portfolio:detail' portfolio.slug %}" 
+                       class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm group">
+                        View Project Details
+                        <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="flex justify-center">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page=1{% if current_category %}&category={{ current_category }}{% endif %}{% if current_service %}&service={{ current_service }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                   class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_service %}&service={{ current_service }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                   class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">Previous</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="px-3 py-2 text-sm bg-blue-600 text-white rounded">{{ num }}</span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_service %}&service={{ current_service }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                       class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_service %}&service={{ current_service }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                   class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_service %}&service={{ current_service }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                   class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">Last</a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- No Results -->
+        <div class="text-center py-12">
+            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">No Projects Found</h3>
+            <p class="text-gray-600 mb-6">
+                {% if search_query %}
+                    No projects match your search for "{{ search_query }}".
+                {% else %}
+                    No projects found with the selected filters.
+                {% endif %}
+            </p>
+            <a href="{% url 'portfolio:list' %}" 
+               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                View All Projects
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Call to Action -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white text-center mt-16">
+            <h2 class="text-2xl font-bold mb-4">Ready to Join Our Success Stories?</h2>
+            <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                Let's discuss how we can help transform your business with proven digital solutions that deliver real results.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'contact:form' %}" 
+                   class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    Start Your Project
+                </a>
+                <a href="{% url 'services:list' %}" 
+                   class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                    View Our Services
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

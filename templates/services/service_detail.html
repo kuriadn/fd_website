@@ -1,0 +1,247 @@
+<!-- templates/services/service_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ service.name }} | Fayvad Digital{% endblock %}
+{% block meta_description %}{{ service.short_description }} Starting at KES {{ service.price|floatformat:0 }}. Professional digital solutions for SMEs and SACCOs.{% endblock %}
+
+{% block content %}
+<div class="py-16">
+    <div class="container mx-auto px-4">
+        
+        <!-- Breadcrumb -->
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <li><a href="{% url 'pages:home' %}" class="hover:text-blue-600">Home</a></li>
+                <li class="before:content-['/'] before:mx-2">
+                    <a href="{% url 'services:list' %}" class="hover:text-blue-600">Services</a>
+                </li>
+                <li class="before:content-['/'] before:mx-2">
+                    <a href="{% url 'services:category' service.category.slug %}" class="hover:text-blue-600">
+                        {{ service.category.name }}
+                    </a>
+                </li>
+                <li class="before:content-['/'] before:mx-2 text-gray-400">{{ service.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="grid lg:grid-cols-3 gap-12">
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                
+                <!-- Service Header -->
+                <div class="mb-8">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                            {{ service.category.name }}
+                        </span>
+                        {% if service.is_featured %}
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">⭐ Featured</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ service.name }}</h1>
+                    <p class="text-xl text-gray-600 leading-relaxed">{{ service.short_description }}</p>
+                </div>
+
+                <!-- Service Description -->
+                <div class="prose prose-lg max-w-none mb-12">
+                    {{ service.description|linebreaks }}
+                </div>
+
+                <!-- Features & Benefits -->
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">What's Included</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        {% for feature in service.features_list %}
+                        <div class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Benefits Section -->
+                {% if service.benefits %}
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Key Benefits</h2>
+                    <div class="bg-blue-50 rounded-lg p-6">
+                        {{ service.benefits|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Technical Requirements -->
+                {% if service.requirements %}
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Requirements</h2>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        {{ service.requirements|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Process/Timeline -->
+                {% if service.process %}
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Our Process</h2>
+                    <div class="space-y-4">
+                        {{ service.process|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                
+                <!-- Pricing Card -->
+                <div class="bg-white rounded-lg shadow-xl border border-gray-200 sticky top-8 mb-8">
+                    <div class="p-8">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ service.name }}</h3>
+                            <div class="text-4xl font-bold text-blue-600">
+                                KES {{ service.price|floatformat:0 }}
+                                {% if service.billing_cycle != 'one_time' %}
+                                <span class="text-lg font-normal text-gray-500">/{{ service.get_billing_cycle_display|lower }}</span>
+                                {% endif %}
+                            </div>
+                            {% if service.setup_fee %}
+                            <div class="text-sm text-gray-500 mt-2">
+                                + KES {{ service.setup_fee|floatformat:0 }} one-time setup fee
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Quick Features -->
+                        <ul class="space-y-3 mb-8">
+                            {% for feature in service.features_list|slice:":5" %}
+                            <li class="flex items-center text-sm">
+                                <svg class="w-4 h-4 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-gray-700">{{ feature }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- CTA Buttons -->
+                        <div class="space-y-3">
+                            <a href="{% url 'contact:form' %}?service={{ service.slug }}" 
+                               class="block w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-center hover:bg-blue-700 transition-colors">
+                                Get Started Now
+                            </a>
+                            <a href="tel:+254769069640" 
+                               class="block w-full border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold text-center hover:bg-blue-50 transition-colors">
+                                Call for Quote
+                            </a>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <div class="text-center text-sm text-gray-600">
+                                <p class="mb-2">Have questions? We're here to help!</p>
+                                <div class="space-y-1">
+                                    <div>📞 +254-769-069-640</div>
+                                    <div>📧 services@digital.fayvad.com</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Choose Us -->
+                <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Why Choose Fayvad Digital?</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Transparent pricing
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Expert implementation
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Ongoing support
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Fast turnaround
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Tailored solutions
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Related Services -->
+        {% if related_services %}
+        <div class="mt-16 pt-12 border-t border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Related Services</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                {% for related in related_services %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ related.name }}</h3>
+                        <p class="text-gray-600 text-sm mb-4">{{ related.short_description|truncatechars:100 }}</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-lg font-bold text-blue-600">
+                                KES {{ related.price|floatformat:0 }}
+                                {% if related.billing_cycle != 'one_time' %}
+                                <span class="text-xs text-gray-500">/{{ related.get_billing_cycle_display|lower }}</span>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'services:detail' related.slug %}" 
+                               class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition-colors">
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Final CTA -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white text-center mt-16">
+            <h2 class="text-2xl font-bold mb-4">Ready to Get Started with {{ service.name }}?</h2>
+            <p class="text-blue-100 mb-6">
+                Join hundreds of SMEs and SACCOs who trust Fayvad Digital for their technology needs
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'contact:form' %}?service={{ service.slug }}" 
+                   class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    Start Your Project
+                </a>
+                <a href="{% url 'services:list' %}" 
+                   class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                    View All Services
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
