@@ -46,6 +46,7 @@ Thumb.db
 # Deployment
 deploy_keys/
 *.pem
+deploy.sh 
 
 *.pgsql
 *.dump
