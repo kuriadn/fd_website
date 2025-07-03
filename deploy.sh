@@ -1,5 +1,5 @@
 #!/bin/bash
-# deploy.sh
+set -e
 
 echo "🚀 Starting deployment process..."
 
@@ -21,17 +21,16 @@ fi
 
 git commit -m "$COMMIT_MSG"
 
-# Push to GitHub
-git push origin main
+# Force push to overwrite remote
+echo "📤 Force pushing to GitHub (overwriting remote)..."
+if git push origin main --force; then
+    echo "✅ Successfully force pushed to GitHub!"
+else
+    echo "❌ Failed to push to GitHub"
+    exit 1
+fi
 
-echo "✅ Successfully pushed to GitHub!"
-echo "🔄 Deploying to server..."
+echo "🔄 Restarting containers..."
+docker-compose restart
 
-# SSH to server and pull changes
-ssh fayvad@167.86.95.242 << 'EOF'
-cd ~/projects/fd_website
-git pull origin main
-docker-compose down
-docker-compose up -d --build
-echo "✅ Deployment complete!"
-EOF
+echo "🎉 Deployment complete!"
