@@ -31,6 +31,6 @@ else
 fi
 
 echo "🔄 Restarting containers..."
-docker-compose restart
+docker compose restart
 
 echo "🎉 Deployment complete!"
