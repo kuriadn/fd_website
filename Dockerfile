@@ -19,19 +19,16 @@ RUN apt-get update \
 
 # Install Python dependencies
 COPY fayvad_digital/requirements.txt /app/
+RUN pip install --upgrade pip
 RUN pip install -r /app/requirements.txt
 
 # Copy project
 COPY . /app/
 
-# Create directories for static and media files
-RUN mkdir -p /app/static /app/media
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Create directories for static, media and logs
+RUN mkdir -p /app/static /app/media /app/logs && \
+    useradd --create-home fayvad && \
+    chown -R fayvad:fayvad /app
 
 # Expose port
 EXPOSE 8000
-
-# Default command
-CMD ["gunicorn", "fayvad_digital.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]

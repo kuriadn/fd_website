@@ -1,15 +1,12 @@
 # Fayvad Digital - Docker Compose Configuration
-# Version: 2.x compatible
-# Database and Nginx run on host machine
 name: fayvad_digital
 
 services:
-
   web:
     build: .
 
     env_file:
-      .env.dev
+      - .env.prod
       
     restart: unless-stopped
     
@@ -21,14 +18,18 @@ services:
       - media_volume:/app/media
 
     networks:
-      - app_network
+      - app-network
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
     command: >
-      sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn fayvad_digital.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+      sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn fayvad_digital.wsgi:application --bind 0.0.0.0:8000"
 
 volumes:
   static_volume:
   media_volume:
 
 networks:
-  app_network:
+  app-network:
     driver: bridge

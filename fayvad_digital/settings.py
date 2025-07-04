@@ -13,9 +13,9 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / '.env')
 
 # Security settings
-SECRET_KEY = env('SECRET_KEY', default='your-secret-key-here')
+SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG', default=False)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['digital.fayvad.com', 'localhost', '127.0.0.1'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Application definition
 DJANGO_APPS = [
@@ -26,6 +26,7 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    'django.contrib.sites',
 ]
 
 THIRD_PARTY_APPS = [
@@ -33,6 +34,7 @@ THIRD_PARTY_APPS = [
     'crispy_tailwind',
     'meta',
     'ckeditor',
+    'corsheaders',
 ]
 
 LOCAL_APPS = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -80,11 +83,14 @@ WSGI_APPLICATION = 'fayvad_digital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME', default='fd_website'),
-        'USER': env('DB_USER', default='fayvad'),
-        'PASSWORD': env('DB_PASSWORD', default='four@One2'),
-        'HOST': env('DB_HOST', default='172.17.0.1'),
-        'PORT': env('DB_PORT', default='5432'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+        'OPTIONS': {
+            'sslmode': 'disable',
+        }
     }
 }
 
@@ -94,6 +100,9 @@ TIME_ZONE = 'Africa/Nairobi'
 USE_I18N = True
 USE_TZ = True
 
+# Site ID
+SITE_ID = 1
+
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -102,11 +111,8 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STORAGES = {
-#     'staticfiles': {
-#         'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'
-#     }
-# }
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True
 
 # Media files
 MEDIA_URL = '/media/'
@@ -127,11 +133,11 @@ CONTACT_EMAIL = env('CONTACT_EMAIL', default='services@digital.fayvad.com')
 if not DEBUG:
     # Production email settings
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
-    EMAIL_PORT = env('EMAIL_PORT', default=587)
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT', cast=int)
     EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # Security settings for production
 if not DEBUG:
@@ -139,14 +145,27 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_SECONDS = 31536000
-    SECURE_REDIRECT_EXEMPT = ['/static/', '/media/']
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Add this line
+    SECURE_HSTS_PRELOAD = True
+    #SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT', default=True, cast=bool)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
 
-# Optional: Add CKEditor configuration
+# CORS settings
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
+    'https://digital.fayvad.com',
+    'https://www.digital.fayvad.com',
+])
+CORS_ALLOW_CREDENTIALS = True
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
+    'https://digital.fayvad.com',
+    'https://www.digital.fayvad.com',
+])
+
+# CKEditor configuration
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
@@ -154,8 +173,3 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     },
 }
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://digital.fayvad.com',
-    'https://www.digital.fayvad.com',
-]
