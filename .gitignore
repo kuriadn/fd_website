@@ -21,7 +21,6 @@ staticfiles/
 # Environment variables
 .env
 .env.*
-!.env.prod*
 
 # development things 
 docker-compose.dev.yml
